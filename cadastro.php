@@ -40,7 +40,7 @@
 
                 <button type="submit">Acessar</button>
 
-                <a href="cadastro.html">Cadastre-se</a>
+                <a href="index.php">Cadastre-se</a>
             </form>
         </section>
     </main>

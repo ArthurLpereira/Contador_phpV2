@@ -64,7 +64,7 @@
         </section>
 
         <div id="btn_confirmar_dia">
-            <a href="categorias.html"><button>Concluído</button></a>
+            <a href="contagem.php"><button>Concluído</button></a>
         </div>
     </main>
 

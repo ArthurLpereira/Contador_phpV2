@@ -37,7 +37,7 @@
                 <h1>Contagem</h1> <!-- ou 'Relatório', dependendo da página -->
             </div>
             <div id="btns-categorias">
-                <button class="btn_contagens">Contagem Ensino Fundamental 1A</button>
+                <button class=" btn_contagens"><a href="esc_sala.php" style="color: white;text-decoration: none;">Contagem Ensino Fundamental 1A</a></button>
                 <button class="btn_contagens">Contagem Ensino Fundamental 1B</button>
                 <button class="btn_contagens">Contagem Ensino Fundamental 2A</button>
                 <button class="btn_contagens">Contagem Ensino Fundamental 2B</button>

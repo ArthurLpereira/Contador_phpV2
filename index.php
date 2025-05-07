@@ -22,7 +22,7 @@
             <div>
                 <h1>Login</h1>
             </div>
-            <form action="login.html" method="POST">
+            <form action="calendario.php" method="POST">
                 <div class="input-container">
                     <i class="fa-solid fa-user"></i>
                     <input type="text" name="txtlogin" id="txtlogin" placeholder="Usuário">
@@ -45,7 +45,7 @@
 
                 <button type="submit">Acessar</button>
 
-                <a href="cadastro.html">Cadastre-se</a>
+                <a href="cadastro.php">Cadastre-se</a>
             </form>
         </section>
     </main>
