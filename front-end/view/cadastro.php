@@ -23,14 +23,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     ];
 
     $context = stream_context_create($opts);
-    $result = json_decode(file_get_contents('http://localhost/api_contador/back-end/endpoints/post_user.php', false, $context),true);
-    
+    $result = json_decode(file_get_contents('http://localhost/arthur/contador_phpv2/back-end/endpoints/post_user.php', false, $context), true);
+
     $mensagem = $result['mensagem'] ?? $result['erro'] ?? null;
-
-    // Se for usar a mensagem elas estão acima é só usar o echo
 }
-
-
 ?>
 
 
@@ -87,6 +83,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div id="fig_bottom"></div>
         <img src="../assets/losangos_bottom.png" alt="" id="losangos">
     </footer>
+
+    <?php if ($mensagem):
+        $icone = strpos($mensagem, 'sucesso') !== false ? 'success' : 'error';
+        $titulo = strpos($mensagem, 'sucesso') !== false ? 'Sucesso' : 'Erro';
+    ?>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: '<?= $icone ?>',
+                title: '<?= $titulo ?>',
+                text: <?= json_encode($mensagem) ?>
+            });
+        </script>
+    <?php endif; ?>
+
 </body>
 
 </html>

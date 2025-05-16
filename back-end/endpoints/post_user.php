@@ -21,7 +21,7 @@ if (isset($dados['nome'], $dados['senha'], $dados['confirmacao'])) {
             if ($executado && $stmt->affected_rows > 0) {
                 echo json_encode(['mensagem' => 'Usuário cadastrado com sucesso']);
             } else {
-                echo json_encode(['erro' => 'Erro ao cadastrar o usuário']);
+                echo json_encode(['erro' => 'Usuário ou senha incorretos']);
             }
 
             $stmt->close();
@@ -29,7 +29,7 @@ if (isset($dados['nome'], $dados['senha'], $dados['confirmacao'])) {
             echo json_encode(['erro' => 'Erro ao preparar a query']);
         }
     } else {
-        echo json_encode(['erro' => 'As senhas não coincidem']);
+        echo json_encode(['erro' => 'Usuário ou senha incorretos']);
     }
 } else {
     echo json_encode(['erro' => 'Dados incompletos']);
