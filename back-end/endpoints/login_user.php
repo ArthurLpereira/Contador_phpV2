@@ -19,7 +19,7 @@ if (isset($dados['nome'], $dados['senha'])) {
 
         if (password_verify($senha, $usuario['senha_usuario'])) {
 
-            $data = date('Ymd');
+            $data = date('dmY');
             $ano = date('Y');
             $token = "{$data}_{$nome}_{$ano}_devtheblaze";
             $tokencodificado = hash('sha256', $token);
