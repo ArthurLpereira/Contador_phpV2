@@ -5,7 +5,12 @@ header('Content-Type: application/json');
 
 $dados = json_decode(file_get_contents('php://input'), true);
 
-if (isset($dados['nome'], $dados['senha'], $dados['confirmacao'])) {
+if (
+    isset($dados['nome'], $dados['senha'], $dados['confirmacao']) &&
+    !empty(trim($dados['nome'])) &&
+    !empty($dados['senha']) &&
+    !empty($dados['confirmacao'])
+    ) {
     $nome = trim($dados['nome']);
     $senha = $dados['senha'];
     $confirmacao = $dados['confirmacao'];
