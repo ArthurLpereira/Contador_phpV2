@@ -15,9 +15,7 @@ session_start(); // Inicia a sessão se precisar de variáveis de sessão ou tok
         main {
             display: flex;
             justify-content: center;
-            /* Reduzindo o padding lateral da main para que o max-width do relatório faça o trabalho */
             padding: 10px;
-            /* Um padding geral pequeno, o espaçamento maior virá do max-width do relatório */
             background-color: #f0f2f5;
             min-height: calc(100vh - 150px);
             box-sizing: border-box;
@@ -29,12 +27,8 @@ session_start(); // Inicia a sessão se precisar de variáveis de sessão ou tok
             flex-direction: column;
             align-items: center;
             width: 100%;
-            /* Max-width ajustado para corresponder visualmente à imagem */
             max-width: 1050px;
-            /* Um pouco mais largo que 1000px, para o conteúdo caber bem */
-            /* Padding vertical e lateral ajustado para corresponder à imagem */
             padding: 10px 15px;
-            /* Mais compacto, mas com um pouco de respiro */
             background-color: #ffffff;
             border-radius: 15px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
@@ -43,43 +37,81 @@ session_start(); // Inicia a sessão se precisar de variáveis de sessão ou tok
         /* --- Estilos para o Cabeçalho do Relatório (Ajustes para alinhamento e espaçamento) --- */
         .header-relatorio {
             text-align: center;
-            /* Margem inferior ajustada */
             margin-bottom: 20px;
-            /* Espaço entre o título do relatório e as tabelas */
             width: 100%;
         }
 
         .header-relatorio h1 {
             font-size: 2.8em;
-            /* Levemente menor que 3em para compactar */
             color: #333;
             margin-bottom: 8px;
-            /* Reduzindo espaço abaixo do H1 */
             font-weight: 700;
         }
 
         .header-relatorio p {
             font-size: 1.2em;
-            /* Levemente menor que 1.3em */
             color: #666;
             margin: 0;
         }
 
+        /* --- Controles de Filtro de Data (NOVOS ESTILOS) --- */
+        .filtro-data-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .filtro-data-container label {
+            font-size: 1.1em;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .filtro-data-container input[type="date"] {
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .filtro-data-container input[type="date"]:focus {
+            border-color: #ff9900;
+            box-shadow: 0 0 5px rgba(255, 153, 0, 0.3);
+        }
+
+        .filtro-data-container button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filtro-data-container button:hover {
+            background-color: #0056b3;
+            transform: translateY(-1px);
+        }
+
+        /* --- FIM DOS NOVOS ESTILOS DO FILTRO --- */
+
         /* --- Contêiner das Tabelas de Categoria (Layout de Grid Fino - Quadrado Verde) --- */
         #tabelas-contagem-container {
             display: grid;
-            /* Ajuste para ter 4 colunas bem apertadas, como na imagem */
-            /* minmax(220px, 1fr) permite que encolham até 220px e cresçam */
-            /* O 1fr garante que dividam o espaço igualmente */
             grid-template-columns: repeat(4, 1fr);
-            /* FORÇA 4 colunas em telas maiores */
             gap: 15px;
-            /* Reduzido o gap para que as tabelas fiquem mais próximas, como na imagem */
             width: 100%;
             margin-bottom: 25px;
-            margin-left: 200px;
-            /* Espaço entre as tabelas e o total geral */
-            /* Sem padding extra aqui, o padding já está no .tabela-categoria-wrapper */
         }
 
         /* --- Wrapper para cada Tabela de Categoria (Card de Tabela) --- */
@@ -87,29 +119,23 @@ session_start(); // Inicia a sessão se precisar de variáveis de sessão ou tok
             background-color: #fdfdfd;
             border-radius: 12px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            /* Sombra mais sutil, como na imagem */
             padding: 15px;
-            /* Padding interno ajustado para compactar */
             display: flex;
             flex-direction: column;
             align-items: center;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             box-sizing: border-box;
-            /* Altura será determinada pelo conteúdo, mas o grid garantirá alinhamento */
         }
 
         .tabela-categoria-wrapper:hover {
             transform: translateY(-3px);
-            /* Efeito hover mais sutil */
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
         }
 
         .tabela-categoria-wrapper h3 {
             font-size: 1.6em;
-            /* Um pouco menor para compactar */
             color: #222;
             margin-bottom: 10px;
-            /* Espaço abaixo do título da categoria */
             font-weight: 600;
             border-bottom: 2px solid #ff9900;
             padding-bottom: 8px;
@@ -122,39 +148,26 @@ session_start(); // Inicia a sessão se precisar de variáveis de sessão ou tok
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 15px;
-            /* Espaço abaixo da tabela antes do total */
             font-size: 1em;
-            /* Um pouco menor para compactar */
         }
 
         .tabela-contagem thead {
             background-color: transparent;
-            /* Remove background-color do thead */
             color: #333;
-            /* Cor do texto mais escura para o cabeçalho */
-            /* Adicionando borda superior vermelha como na imagem */
             border-top: 5px solid #E44D26;
-            /* Cor vermelha do cabeçalho da imagem */
             border-radius: 5px 5px 0 0;
-            /* Arredondar só os cantos superiores */
             overflow: hidden;
-            /* Para a borda radius funcionar */
         }
 
         .tabela-contagem th {
             padding: 10px 8px;
-            /* Ajusta padding do cabeçalho da tabela */
             text-align: center;
-            /* Centraliza o texto do cabeçalho */
             font-weight: bold;
             text-transform: uppercase;
             font-size: 0.9em;
             color: #fff;
-            /* Texto branco no cabeçalho */
             background-color: #E44D26;
-            /* Fundo vermelho do cabeçalho da imagem */
             border-bottom: none;
-            /* Remove borda inferior do th */
         }
 
         /* Primeiro th e último th para bordas arredondadas e que não vaze o background */
@@ -166,24 +179,18 @@ session_start(); // Inicia a sessão se precisar de variáveis de sessão ou tok
             border-top-right-radius: 5px;
         }
 
-
         .tabela-contagem td {
             padding: 8px 8px;
-            /* Padding menor nas células de dados */
             text-align: center;
-            /* Centraliza o texto das células */
             border-bottom: 1px solid #eee;
-            /* Linhas mais claras */
         }
 
         .tabela-contagem tbody tr:nth-child(even) {
             background-color: #fcfcfc;
-            /* Zebra striping mais sutil */
         }
 
         .tabela-contagem tbody tr:hover {
             background-color: #f5f5f5;
-            /* Efeito hover mais sutil */
         }
 
         /* Última linha da tabela sem borda inferior */
@@ -191,48 +198,35 @@ session_start(); // Inicia a sessão se precisar de variáveis de sessão ou tok
             border-bottom: none;
         }
 
-
         /* --- Estilos para o Total dentro de cada Tabela de Categoria --- */
         .total-categoria-wrapper {
             margin-top: auto;
-            /* Empurra para baixo */
             width: 100%;
-            /* Ocupa a largura total do card */
             display: flex;
             justify-content: center;
-            /* Centraliza o "Total" e o valor */
             align-items: center;
             padding-top: 10px;
-            /* Espaço acima do total */
             border-top: none;
-            /* Remove a linha tracejada */
         }
 
         .total-categoria-wrapper span:first-child {
-            /* O texto "Total:" */
             font-size: 1.2em;
-            /* Menor que 1.3em */
             font-weight: 600;
             color: #444;
             margin-right: 10px;
-            /* Espaço entre "Total:" e o valor */
         }
 
         .valor-total-categoria {
             background-color: #ff9900;
             color: #fff;
             font-size: 1.6em;
-            /* Levemente menor que 1.8em */
             font-weight: bold;
             border-radius: 50px;
             padding: 6px 18px;
-            /* Padding ajustado para o visual da imagem */
             display: inline-block;
             min-width: 60px;
-            /* Reduzido min-width */
             text-align: center;
             box-shadow: 0 2px 6px rgba(255, 153, 0, 0.4);
-            /* Sombra mais suave */
         }
 
         /* --- Estilos para o Total Geral Final --- */
@@ -240,24 +234,16 @@ session_start(); // Inicia a sessão se precisar de variáveis de sessão ou tok
             background-color: #ff6600;
             color: #fff;
             padding: 18px 50px;
-            /* Padding reduzido para compactar */
             border-radius: 60px;
-            /* Levemente menor que 70px */
             font-size: 2.5em;
-            /* Levemente menor que 3em */
             font-weight: bold;
             box-shadow: 0 6px 20px rgba(255, 102, 0, 0.6);
-            /* Sombra mais suave */
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Centraliza o total geral */
             gap: 15px;
-            /* Gap menor */
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-            /* Sombra de texto mais sutil */
             margin-top: 30px;
-            /* Espaço entre as tabelas e o total geral */
         }
 
         #total-geral-final h2 {
@@ -293,105 +279,76 @@ session_start(); // Inicia a sessão se precisar de variáveis de sessão ou tok
         }
 
         /* --- Estilos Responsivos (Ajustados para o novo design e proporções) --- */
-        /* O grid-template-columns com repeat(4, 1fr) vai forçar 4 colunas.
-   O conteúdo das tabelas pode precisar encolher ainda mais para caber. */
-
         @media (max-width: 1050px) {
-
-            /* Reduzindo de 1200px para 1050px, quando as 4 colunas começam a ficar apertadas */
             #tabelas-contagem-container {
                 gap: 10px;
-                /* Reduz ainda mais o gap */
                 grid-template-columns: repeat(4, 1fr);
-                /* Mantém 4 colunas, mas elas encolhem mais */
             }
 
             .tabela-categoria-wrapper {
                 padding: 10px;
-                /* Reduz padding interno do card */
             }
 
             .tabela-contagem th,
             .tabela-contagem td {
                 padding: 6px 5px;
-                /* Reduz mais o padding da tabela */
                 font-size: 0.85em;
-                /* Reduz o tamanho da fonte da tabela */
             }
 
             .valor-total-categoria {
                 font-size: 1.4em;
-                /* Reduz fonte do total categoria */
                 padding: 5px 15px;
             }
         }
 
         @media (max-width: 900px) {
-
-            /* Transição para 2 colunas para tablets e telas médias */
             #tabelas-contagem-container {
                 grid-template-columns: repeat(2, 1fr);
-                /* 2 colunas */
                 gap: 20px;
-                /* Aumenta um pouco o gap para 2 colunas */
             }
 
             #relatorio-contagens-tabelas {
                 max-width: 700px;
-                /* Limita a largura em 2 colunas */
             }
 
             .tabela-categoria-wrapper {
                 padding: 15px;
-                /* Aumenta um pouco o padding do card para 2 colunas */
             }
 
             .tabela-contagem th,
             .tabela-contagem td {
                 padding: 8px 8px;
-                /* Ajusta padding da tabela */
                 font-size: 1em;
-                /* Volta ao tamanho original ou próximo */
             }
 
             .valor-total-categoria {
                 font-size: 1.6em;
-                /* Volta ao tamanho original ou próximo */
                 padding: 6px 18px;
             }
         }
 
         @media (max-width: 600px) {
-
-            /* Transição para 1 coluna para celulares */
             #tabelas-contagem-container {
                 grid-template-columns: 1fr;
-                /* 1 coluna */
                 gap: 15px;
-                /* Gap para 1 coluna */
             }
 
             #relatorio-contagens-tabelas {
                 max-width: 380px;
-                /* Largura máxima para 1 coluna */
                 padding: 15px 10px;
-                /* Padding no quadrado azul */
             }
 
             main {
                 padding: 10px;
-                /* Padding geral na main */
             }
 
             .tabela-categoria-wrapper {
                 padding: 10px;
-                /* Reduz padding interno do card */
             }
 
             .tabela-contagem th,
             .tabela-contagem td {
                 padding: 6px;
-                /* Ajusta padding da tabela */
                 font-size: 0.9em;
             }
 
@@ -403,6 +360,11 @@ session_start(); // Inicia a sessão se precisar de variáveis de sessão ou tok
             #total-geral-final {
                 font-size: 1.8em;
                 padding: 15px 30px;
+            }
+
+            .filtro-data-container {
+                flex-direction: column;
+                gap: 10px;
             }
         }
 
@@ -453,6 +415,11 @@ session_start(); // Inicia a sessão se precisar de variáveis de sessão ou tok
                 <p>Data: <span id="data-relatorio">Carregando...</span></p>
             </div>
 
+            <div class="filtro-data-container">
+                <label for="data-filtro">Filtrar por data:</label>
+                <input type="date" id="data-filtro">
+                <button id="btn-filtrar-data"><i class="fas fa-search"></i> Filtrar</button>
+            </div>
             <div id="tabelas-contagem-container">
                 <p>Carregando dados das contagens...</p>
             </div>
@@ -469,8 +436,8 @@ session_start(); // Inicia a sessão se precisar de variáveis de sessão ou tok
     </footer>
 
     <script>
-        // --- Funções do Menu Hambúrguer (Mantidas) ---
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Funções do Menu Hambúrguer (Mantidas) ---
             const abrir_menu = document.querySelector('.hamburguer');
             const menu = document.querySelector('.menu');
 
@@ -523,10 +490,12 @@ session_start(); // Inicia a sessão se precisar de variáveis de sessão ou tok
                 });
             }
 
-            // --- Lógica para Carregar e Exibir os Dados do Relatório em Tabelas ---
+            // --- Lógica para Carregar e Exibir os Dados do Relatório em Tabelas (COM ALTERAÇÕES) ---
             const tabelasContagemContainer = document.getElementById('tabelas-contagem-container');
             const valorTotalGeralElement = document.getElementById('valor-total-geral');
             const dataRelatorioElement = document.getElementById('data-relatorio');
+            const dataFiltroInput = document.getElementById('data-filtro'); // Novo: input de data
+            const btnFiltrarData = document.getElementById('btn-filtrar-data'); // Novo: botão de filtrar
             let totalGeralAcumulado = 0; // Usado para o total geral final
 
             // Função para formatar a data para exibição (ex: 2025-06-18 para 18/06/2025)
@@ -541,27 +510,49 @@ session_start(); // Inicia a sessão se precisar de variáveis de sessão ou tok
                 }
             }
 
-            // Pega a data da URL ou usa a data atual se nenhuma for fornecida
-            const urlParams = new URLSearchParams(window.location.search);
-            let dataParaBackend = urlParams.get('data') || '';
+            // Função para obter a data no formato YYYY-MM-DD
+            function getFormattedDate(date) {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
 
-            if (dataParaBackend) {
-                dataRelatorioElement.textContent = formatarDataParaExibicao(dataParaBackend);
+            // Configura a data inicial no input de filtro e no cabeçalho
+            // Primeiro, verifica se há uma data na URL (se o usuário veio do calendário, por exemplo)
+            const urlParams = new URLSearchParams(window.location.search);
+            let dataParamURL = urlParams.get('data'); // Pega a data da URL se existir
+
+            if (dataParamURL) {
+                // Se a data vier da URL, usa-a para configurar o input e o cabeçalho
+                dataFiltroInput.value = dataParamURL;
+                dataRelatorioElement.textContent = formatarDataParaExibicao(dataParamURL);
             } else {
-                // Se nenhuma data foi selecionada na URL, usa a data atual do cliente para exibir e para a requisição
+                // Se não houver data na URL, usa a data atual como padrão
                 const hoje = new Date();
-                const ano = hoje.getFullYear();
-                const mes = String(hoje.getMonth() + 1).padStart(2, '0');
-                const dia = String(hoje.getDate()).padStart(2, '0');
-                dataParaBackend = `${ano}-${mes}-${dia}`;
-                dataRelatorioElement.textContent = formatarDataParaExibicao(dataParaBackend);
+                const dataAtualFormatada = getFormattedDate(hoje);
+                dataFiltroInput.value = dataAtualFormatada;
+                dataRelatorioElement.textContent = formatarDataParaExibicao(dataAtualFormatada);
             }
 
             // Função assíncrona para buscar e renderizar os dados
             async function carregarRelatorio() {
+                // Pega a data que está NO CAMPO DE INPUT
+                const dataParaBuscar = dataFiltroInput.value;
+                // Atualiza a data que aparece no cabeçalho do relatório
+                dataRelatorioElement.textContent = formatarDataParaExibicao(dataParaBuscar);
+
+                // Antes de fazer o fetch, exiba uma mensagem de carregamento
+                tabelasContagemContainer.innerHTML = '<p>Carregando dados das contagens...</p>';
+                valorTotalGeralElement.textContent = '...';
+
                 try {
-                    // Fetch dos dados do backend
-                    const response = await fetch('../../back-end/endpoints/mostrar_contagem.php' + (dataParaBackend ? `?data=${dataParaBackend}` : ''));
+                    // Fetch dos dados do backend, passando a data selecionada como parâmetro GET
+                    // A URL aqui é relativa ao seu 'relatorio.php'.
+                    // Se 'relatorio.php' está em 'front/relatorio.php'
+                    // e 'mostrar_contagem.php' está em 'back-end/endpoints/mostrar_contagem.php'
+                    // então o caminho '../../back-end/endpoints/mostrar_contagem.php' está correto.
+                    const response = await fetch(`../../back-end/endpoints/mostrar_contagem.php?data=${dataParaBuscar}`);
 
                     if (!response.ok) {
                         const errorText = await response.text();
@@ -627,7 +618,10 @@ session_start(); // Inicia a sessão se precisar de variáveis de sessão ou tok
                 }
             }
 
-            // Chama a função para carregar o relatório quando a página carregar
+            // Adiciona o event listener para o botão de filtrar
+            btnFiltrarData.addEventListener('click', carregarRelatorio);
+
+            // Chama a função para carregar o relatório quando a página carregar (na primeira vez)
             carregarRelatorio();
         });
     </script>
