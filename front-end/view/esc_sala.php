@@ -290,13 +290,28 @@ $anosDaCategoria = $dadosCategoria['anos'];
                         contagens_turmas: [] // Array para as contagens de cada turma
                     };
 
+                    function pegarDataHoraFormatada() {
+                        const agora = new Date();
+
+                        const ano = agora.getFullYear();
+                        const mes = String(agora.getMonth() + 1).padStart(2, '0');
+                        const dia = String(agora.getDate()).padStart(2, '0');
+
+                        const horas = String(agora.getHours()).padStart(2, '0');
+                        const minutos = String(agora.getMinutes()).padStart(2, '0');
+                        const segundos = String(agora.getSeconds()).padStart(2, '0');
+
+                        return `${ano}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
+                    }
+
+
                     // Itera sobre as contagens armazenadas localmente para preencher 'contagens_turmas'
                     for (const nomeSala in contagensPorTurma) {
                         if (contagensPorTurma.hasOwnProperty(nomeSala)) {
                             const turmaData = contagensPorTurma[nomeSala];
                             dadosParaEnviar.contagens_turmas.push({
                                 turma_id: turmaData.id,
-                                quantidade: turmaData.quantidade
+                                quantidade: turmaData.quantidade,
                             });
                         }
                     }
