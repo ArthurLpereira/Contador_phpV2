@@ -41,7 +41,7 @@ $categoriasSalasPHP = [
 
 // Pega a categoria e a data dos parâmetros GET
 $categoriaSelecionada = $_GET['categoria'] ?? '';
-$dataSelecionada = $_GET['data'] ?? ''; // Formato esperado: YYYY-MM-DD
+$dataSelecionada = $_GET['data'] ?? ''; // Formato esperado:YYYY-MM-DD
 
 $dadosCategoria = $categoriasSalasPHP[$categoriaSelecionada] ?? null;
 
@@ -130,85 +130,90 @@ $anosDaCategoria = $dadosCategoria['anos'];
     </dialog>
 
     <script>
-        console.log(accessTokenFromPHP)
+        // Movemos a declaração e o uso de accessTokenFromPHP para dentro do DOMContentLoaded
+        // ou você pode removê-la se não for utilizada nesta página
+        // console.log(accessTokenFromPHP) // Remova ou defina accessTokenFromPHP no PHP se for usar aqui.
 
-        const abrir_menu = document.querySelector('.hamburguer');
-        const menu = document.querySelector('.menu');
-
-        // Verifica se os elementos do menu existem na página atual
-        if (abrir_menu && menu) {
-            abrir_menu.addEventListener('click', () => {
-                abrir_menu.classList.toggle('aberto'); // Adiciona/remove a classe 'aberto' no botão
-                menu.classList.toggle('ativo'); // Adiciona/remove a classe 'ativo' no menu (nav)
-            });
-        }
-
-        // Variável para armazenar as contagens das turmas antes de enviar
-        // A chave será o nome da sala (ex: "1º Ano"), o valor será um objeto {id: turma_id, quantidade: N}
-        let contagensPorTurma = {};
-        let currentTurmaId = null; // Para armazenar o ID da turma do modal atualmente aberto
-
-        // A data selecionada do calendário, passada via PHP (Formato YYYY-MM-DD)
-        const dataSelecionadaPHP = "<?php echo $dataSelecionada; ?>";
-
-        // --- Funções Auxiliares para Tokens e Logout ---
-        const logoutBtn = document.getElementById('logout-btn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', async function(e) {
-                e.preventDefault();
-                const currentRefreshToken = sessionStorage.getItem('refresh_token');
-
-                if (!currentRefreshToken) {
-                    alert('Não há token para logout.');
-                    sessionStorage.clear();
-                    window.location.href = 'index.php'; // Redireciona para sua página de login
-                    return;
-                }
-
-                try {
-                    const response = await fetch('../../back-end/endpoints/logout.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            refreshToken: currentRefreshToken
-                        })
-                    });
-                    const data = await response.json();
-
-                    if (data.mensagem || response.ok) {
-                        alert(data.mensagem || "Logout realizado com sucesso.");
-                    } else {
-                        alert('Erro ao fazer logout: ' + (data.erro || "Erro desconhecido"));
-                        console.error("Erro de logout:", data);
-                    }
-                } catch (err) {
-                    alert('Erro na requisição de logout: ' + err.message);
-                    console.error("Erro de rede no logout:", err);
-                } finally {
-                    sessionStorage.clear();
-                    window.location.href = 'index.php'; // Redireciona para sua página de login
-                }
-            });
-        }
-        // --- Fim Funções Auxiliares ---
-
-        // Função global para alterar o valor do contador no modal (chamada via onclick no HTML)
-        window.alterarValor = function(delta) {
-            const input = document.getElementById('valor');
-            if (!input) return;
-
-            const min = parseInt(input.min) || 0;
-            const max = parseInt(input.max) || Infinity;
-            let valor = parseInt(input.value) || 0;
-
-            valor = Math.min(max, Math.max(min, valor + delta));
-            input.value = valor;
-        };
-
-        // Lógica principal executada após o DOM ser completamente carregado
         document.addEventListener('DOMContentLoaded', () => {
+            const abrir_menu = document.querySelector('.hamburguer');
+            const menu = document.querySelector('.menu');
+
+            // Verifica se os elementos do menu existem na página atual
+            if (abrir_menu && menu) {
+                abrir_menu.addEventListener('click', () => {
+                    abrir_menu.classList.toggle('aberto'); // Adiciona/remove a classe 'aberto' no botão
+                    menu.classList.toggle('ativo'); // Adiciona/remove a classe 'ativo' no menu (nav)
+                });
+            }
+
+            // Variável para armazenar as contagens das turmas antes de enviar
+            // A chave será o nome da sala (ex: "1º Ano"), o valor será um objeto {id: turma_id, quantidade: N}
+            let contagensPorTurma = {};
+            let currentTurmaId = null; // Para armazenar o ID da turma do modal atualmente aberto
+
+            // A data selecionada do calendário, passada via PHP (Formato YYYY-MM-DD)
+            const dataSelecionadaPHP = "<?php echo $dataSelecionada; ?>";
+
+            // --- Funções Auxiliares para Tokens e Logout ---
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    const currentRefreshToken = sessionStorage.getItem('refresh_token');
+
+                    if (!currentRefreshToken) {
+                        alert('Não há token para logout.');
+                        sessionStorage.clear();
+                        window.location.href = 'index.php'; // Redireciona para sua página de login
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch('../../back-end/endpoints/logout.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                refreshToken: currentRefreshToken
+                            })
+                        });
+                        const data = await response.json();
+
+                        if (data.mensagem || response.ok) {
+                            alert(data.mensagem || "Logout realizado com sucesso.");
+                        } else {
+                            alert('Erro ao fazer logout: ' + (data.erro || "Erro desconhecido"));
+                            console.error("Erro de logout:", data);
+                        }
+                    } catch (err) {
+                        alert('Erro na requisição de logout: ' + err.message);
+                        console.error("Erro de rede no logout:", err);
+                    } finally {
+                        sessionStorage.clear();
+                        window.location.href = 'index.php'; // Redireciona para sua página de login
+                    }
+                });
+            }
+            // --- Fim Funções Auxiliares ---
+
+            // Função global para alterar o valor do contador no modal (chamada via onclick no HTML)
+            // É importante que essa função esteja acessível globalmente se for chamada no HTML com 'onclick'.
+            // Você já fez isso corretamente colocando-a fora do DOMContentLoaded e anexando ao 'window'.
+            window.alterarValor = function(delta) {
+                const input = document.getElementById('valor');
+                if (!input) return;
+
+                const min = parseInt(input.min) || 0;
+                const max = parseInt(input.max) || Infinity;
+                let valor = parseInt(input.value) || 0;
+
+                valor = Math.min(max, Math.max(min, valor + delta));
+                input.value = valor;
+            };
+
+            // Lógica principal executada após o DOM ser completamente carregado
+            // Essa parte já estava dentro do DOMContentLoaded, o que é correto.
             const botoesAnos = document.querySelectorAll('.botoes-anos .btn_contagens'); // Seleciona TODOS os botões de ano/série
             const modal = document.getElementById('modal');
             const tituloModal = document.getElementById('titulo-modal');
@@ -241,11 +246,12 @@ $anosDaCategoria = $dadosCategoria['anos'];
 
             // Lógica para fechar o modal ao clicar fora dele (background)
             if (modal) {
-                window.onclick = function(event) {
+                // Usar 'click' diretamente no modal é mais robusto para fechar ao clicar no "backdrop"
+                modal.addEventListener('click', (event) => {
                     if (event.target === modal) {
                         modal.close();
                     }
-                };
+                });
             }
 
             // Lógica do botão "Feito" DENTRO DO MODAL
@@ -309,7 +315,7 @@ $anosDaCategoria = $dadosCategoria['anos'];
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${accessToken}` // IMPORTANTE: Adiciona "Bearer " antes do token
+                                'Authorization': `${accessToken}` // IMPORTANTE: Adiciona "Bearer " antes do token
                             },
                             body: JSON.stringify(dadosParaEnviar) // Converte o objeto JavaScript em JSON
                         });
@@ -317,7 +323,7 @@ $anosDaCategoria = $dadosCategoria['anos'];
                         const result = await response.json(); // Analisa a resposta JSON do servidor
 
                         if (response.ok) { // Se a resposta HTTP for 2xx (Sucesso)
-                            alert(result.mensagem || "Contagem enviada com sucesso!");
+                            // alert(result.mensagem || "Contagem enviada com sucesso!");
                             contagensPorTurma = {}; // Limpa as contagens após o envio
                             // Redireciona para a página de contagem de categorias,
                             // PASSANDO A DATA DE VOLTA para que ela não seja perdida

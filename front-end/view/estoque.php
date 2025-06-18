@@ -78,6 +78,8 @@ if ($mysqli && !$mysqli->connect_error) { // Garante que $mysqli existe e está 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="../css/estoque.css">
     <title>Estoque</title>
     <style>
         /* (Seus estilos CSS existentes aqui. Mantenha-os como estão.) */
@@ -85,7 +87,7 @@ if ($mysqli && !$mysqli->connect_error) { // Garante que $mysqli existe e está 
 
         /* Variáveis de Cores (Verifique se já existem no seu :root e remova duplicatas) */
         :root {
-            --cor-principal-gradiente: linear-gradient(to right, #C31818, #F37430);
+            --cor-principal-gradiente: #C31818;
             /* Seu gradiente principal */
             --cor-botoes-hover: linear-gradient(to right, #A31515, #D05A20);
             /* Gradiente levemente mais escuro para hover */
@@ -106,259 +108,32 @@ if ($mysqli && !$mysqli->connect_error) { // Garante que $mysqli existe e está 
             --cor-tabela-hover: #D0E8F2;
             /* Sua cor de hover de tabela */
         }
-
-        /* Estilos para a seção de estoque principal */
-        #estoque-section {
-            background-color: var(--cor-fundo-secao);
-            padding: 40px;
-            border-radius: 50px;
-            box-shadow: var(--sombra-media);
-            width: 70vw;
-            max-width: 960px;
-            height: auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            /* O main#main-content já centraliza */
-            margin-top: 50px;
-            /* Adiciona uma margem superior para afastar do header */
-            margin-bottom: 50px;
-            /* Adiciona uma margem inferior para afastar do footer */
+        #estoque-section{
+            height: 500px;
+            max-width: 900px;
         }
-
-        #estoque-section table {
-            margin-left: 100px;
-
+        #estoque-section h1{
+            font-size: 22px;
         }
-
-        /* Título principal da seção de estoque */
-        #estoque-section>h1 {
-            font-size: 40px;
-            margin-top: 20px;
-            text-transform: uppercase;
-            color: var(--cor-texto-escuro);
-            width: 100%;
-            text-align: center;
-            margin-bottom: 20px;
+        #estoque-section h2{
+            font-size: 22px;
         }
-
-        /* Contêiner para os elementos de topo (Busca e Cadastro) */
-        #estoque-top-controls {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-            gap: 20px;
-            position: relative;
-            top: 70px;
+        #fig_bottom {
+            width: 800px;
+            height: 250px;
+            background: linear-gradient(to right, #c40000, #ff5733);
+            clip-path: polygon(0% 0%, 30% 80%, 100% 100%, 0% 100%, 0% 100%);
         }
-
-        /* Formulário de Busca (lado esquerdo) */
-        #estoque-search-form {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-grow: 1;
-            justify-content: flex-start;
-            max-width: 60%;
-        }
-
-        /* Input Container do formulário de busca */
-        #estoque-input-group {
-            width: 100%;
-            height: 45px;
-            padding: 0 10px;
-            display: flex;
-            align-items: center;
-            position: relative;
-            border: 1px solid var(--borda-padrao);
-            border-radius: 5px;
-        }
-
-        #estoque-input-group i {
-            position: absolute;
-            left: 10px;
-            color: #aaa;
-            font-size: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        /* Input de busca */
-        #estoque-alimento-input {
-            width: calc(100% - 35px);
-            height: 100%;
-            padding: 0 10px 0 35px;
-            border: none;
-            border-radius: 5px;
-            font-size: 20px;
-            box-shadow: none;
-            outline: none;
-            background-color: transparent;
-        }
-
-        #estoque-alimento-input:focus {
-            border-color: #66afe9;
-        }
-
-        /* Botão de Busca e Cadastro */
-        #estoque-search-button,
-        #estoque-add-button {
-            width: auto;
-            height: 45px;
-            background: var(--cor-principal-gradiente);
-            color: var(--cor-texto-claro);
-            border: none;
-            font-size: 25px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition-duration: 0.5s;
-            box-shadow: none;
-            padding: 0 20px;
-            margin: 0;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        #estoque-add-button {
-            position: relative;
-            bottom: 30px;
-        }
-
-        #estoque-search-button:hover,
-        #estoque-add-button:hover {
-            transform: scale(1.03);
-        }
-
-        /* Mensagens de erro/informação */
-        #estoque-error-message,
-        #estoque-no-results-message,
-        #estoque-initial-message {
-            text-align: center;
-            margin-top: 20px;
-            font-weight: bold;
-            width: 100%;
-            position: relative;
-            bottom: 30px;
-            padding: 10px;
-            border-radius: 5px;
-        }
-
-        #estoque-error-message {
-            color: red;
-            background-color: #fdd;
-            border: 1px solid #f99;
-        }
-
-        #estoque-no-results-message,
-        #estoque-initial-message {
-            color: gray;
-            background-color: #eee;
-            border: 1px solid #ddd;
-        }
-
-        /* Tabela de Resultados */
-        #estoque-results-container {
-            margin-top: 20px;
-            width: 100%;
-            text-align: center;
-            position: relative;
-            bottom: 30px;
-        }
-
-        #estoque-results-container h2 {
-            color: var(--cor-texto-escuro);
-            margin-bottom: 25px;
-            font-size: 2em;
-            font-weight: bold;
-        }
-
-        #estoque-data-table {
-            width: 100%;
-            margin: 0 auto;
-            border-collapse: separate;
-            border-spacing: 0;
-            box-shadow: var(--sombra-leve);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        #estoque-data-table th,
-        #estoque-data-table td {
-            border: none;
-            padding: 15px;
-            text-align: left;
-            font-size: 1.2em;
-        }
-
-        #estoque-data-table th {
-            background: var(--cor-principal-gradiente);
-            color: var(--cor-texto-claro);
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 1.1em;
-            letter-spacing: 0.5px;
-        }
-
-        /* Bordas arredondadas para o cabeçalho da tabela */
-        #estoque-data-table thead tr:first-child th:first-child {
-            border-top-left-radius: 10px;
-        }
-
-        #estoque-data-table thead tr:first-child th:last-child {
-            border-top-right-radius: 10px;
-        }
-
-        #estoque-data-table tbody tr:nth-child(even) {
-            background-color: var(--cor-fundo-claro);
-        }
-
-        #estoque-data-table tbody tr:nth-child(odd) {
-            background-color: var(--cor-fundo-secao);
-        }
-
-        #estoque-data-table tbody tr:hover {
-            background-color: var(--cor-tabela-hover);
-            transition: background-color 0.2s ease;
-        }
-
-        /* Linha divisória entre as linhas do corpo da tabela */
-        #estoque-data-table tbody tr:not(:last-child) {
-            border-bottom: 1px solid var(--borda-padrao);
-        }
-
-        /* Estilos para os botões de Ação na Tabela */
-        .action-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            text-decoration: none;
-            color: white;
-            margin: 0 5px;
-            border: none;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
         .action-button i {
             pointer-events: none;
         }
 
         .edit-button {
-            background-color: #007bff;
+            background-color: #85d285;
         }
 
         .edit-button:hover {
-            background-color: #0056b3;
+            /* background-color: #0056b3; */
             transform: scale(1.1);
         }
 
@@ -371,405 +146,8 @@ if ($mysqli && !$mysqli->connect_error) { // Garante que $mysqli existe e está 
             transform: scale(1.1);
         }
 
-        /* Estilos para o Modal de Confirmação */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
 
-        .modal-content {
-            background-color: var(--cor-fundo-secao);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: var(--sombra-media);
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-            transform: scale(0.8);
-            opacity: 0;
-            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal-overlay.active .modal-content {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        .modal-content h3 {
-            font-size: 2em;
-            color: var(--cor-texto-escuro);
-            margin-bottom: 20px;
-        }
-
-        .modal-content p {
-            font-size: 1.2em;
-            color: var(--cor-texto-escuro);
-            margin-bottom: 30px;
-        }
-
-        /* Garante que os botões dentro do modal-buttons fiquem centralizados se a div for menor */
-        .modal-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .modal-button {
-            /* ESTILOS PARA TODOS OS BOTÕES DE MODAIS */
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-decoration: none;
-
-            /* ADICIONADO PARA CENTRALIZAR O TEXTO DOS BOTÕES */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            white-space: nowrap;
-            /* Evita que o texto quebre em várias linhas */
-        }
-
-        .modal-button.confirm {
-            background: linear-gradient(to right, #dc3545, #bd2130);
-            color: white;
-        }
-
-        .modal-button.confirm:hover {
-            background: linear-gradient(to right, #bd2130, #a71d2a);
-            transform: scale(1.05);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .modal-button.cancel {
-            background: var(--cor-principal-gradiente);
-            color: white;
-        }
-
-        .modal-button.cancel:hover {
-            background: var(--cor-botoes-hover);
-            transform: scale(1.05);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Esconder o overlay se não estiver ativo para acessibilidade */
-        .modal-overlay:not(.active) {
-            pointer-events: none;
-            visibility: hidden;
-        }
-
-        /* Estilos para grupos de formulário dentro dos modais */
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-            width: 100%;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: var(--cor-texto-escuro);
-            font-size: 1.1em;
-        }
-
-        .form-group input[type="text"],
-        .form-group input[type="number"],
-        .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--borda-padrao);
-            border-radius: 8px;
-            font-size: 1em;
-            box-sizing: border-box;
-        }
-
-
-        /* ESTILOS ADICIONADOS/AJUSTADOS PARA O MODAL DE CADASTRO */
-        #cadastro-modal-overlay .modal-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            padding-top: 40px;
-            /* Adiciona um padding maior no topo para o título não ficar grudado */
-            padding-bottom: 30px;
-        }
-
-        #cadastro-modal-title {
-            margin-bottom: 70px;
-            /* Aumenta a margem para empurrar o formulário para baixo */
-            font-size: 2.2em;
-            color: var(--cor-texto-escuro);
-            width: 100%;
-            text-align: center;
-        }
-
-        #cadastro-item-form {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 0 20px;
-            /* Adiciona padding lateral ao formulário para não encostar nas bordas do modal */
-            box-sizing: border-box;
-        }
-
-        #cadastro-item-form .form-group {
-            margin-bottom: 10px;
-            /* Espaçamento entre os campos */
-            width: 100%;
-        }
-
-        /* Estilos específicos para o botão de Cadastrar por ID */
-        #cadastro-submit-button {
-            padding: 12px 50px;
-            font-size: 1.3em;
-            /* text-align: center; REMOVIDO pois flexbox fará a centralização */
-        }
-
-        /* ESTILOS ADICIONADOS/AJUSTADOS PARA O MODAL DE EDIÇÃO */
-        /* Altere a margin-bottom do título do modal de edição, se desejar */
-        #edicao-modal-title {
-            margin-bottom: 25px;
-            /* Ajustado para espaçamento similar ao de cadastro antes da alteração do padding */
-        }
-
-
-        /* Media Queries para Responsividade */
-        @media screen and (max-width: 768px) {
-            #estoque-section {
-                padding: 20px;
-                width: 90vw;
-                border-radius: 30px;
-            }
-
-            #estoque-section>h1 {
-                font-size: 30px;
-                bottom: 30px;
-            }
-
-            #estoque-top-controls {
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
-                bottom: 0;
-                margin-bottom: 20px;
-            }
-
-            #estoque-search-form {
-                flex-direction: column;
-                width: 100%;
-                max-width: 100%;
-                gap: 10px;
-            }
-
-            #estoque-input-group {
-                width: 100%;
-                height: auto;
-            }
-
-            #estoque-alimento-input {
-                width: calc(100% - 35px);
-                font-size: 16px;
-                padding: 10px 10px 10px 35px;
-            }
-
-            #estoque-input-group i {
-                left: 15px;
-                font-size: 18px;
-            }
-
-            #estoque-search-button,
-            #estoque-add-button {
-                width: 80%;
-                height: 40px;
-                font-size: 18px;
-                padding: 10px 15px;
-            }
-
-            #estoque-results-container {
-                margin-top: 20px;
-                bottom: 0;
-            }
-
-            #estoque-results-container h2 {
-                font-size: 1.8em;
-            }
-
-            #estoque-data-table {
-                font-size: 0.9em;
-                min-width: 500px;
-            }
-
-            #estoque-data-table th,
-            #estoque-data-table td {
-                padding: 12px 10px;
-            }
-
-            /* Ajuste para o padding do main para evitar que a seção cole nas bordas da tela */
-            #main-content {
-                padding: 15px;
-            }
-        }
-
-        @media screen and (max-width: 480px) {
-            #estoque-section {
-                padding: 15px;
-                border-radius: 20px;
-            }
-
-            #estoque-section>h1 {
-                font-size: 24px;
-                bottom: 10px;
-            }
-
-            #estoque-top-controls {
-                gap: 10px;
-            }
-
-            #estoque-alimento-input {
-                font-size: 14px;
-                padding: 8px 8px 8px 30px;
-            }
-
-            #estoque-input-group i {
-                left: 10px;
-                font-size: 16px;
-            }
-
-            #estoque-search-button,
-            #estoque-add-button {
-                width: 90%;
-                height: 35px;
-                font-size: 16px;
-                padding: 8px 10px;
-            }
-
-            #estoque-results-container h2 {
-                font-size: 1.5em;
-                margin-bottom: 15px;
-            }
-
-            #estoque-data-table {
-                font-size: 0.75em;
-                min-width: 350px;
-            }
-
-            #estoque-data-table th,
-            #estoque-data-table td {
-                padding: 8px 6px;
-            }
-
-            #estoque-error-message,
-            #estoque-no-results-message,
-            #estoque-initial-message {
-                font-size: 0.9em;
-                bottom: 15px;
-            }
-        }
-
-        /* ESTILOS ADICIONADOS/AJUSTADOS PARA O MODAL DE CADASTRO */
-        #cadastro-modal-overlay .modal-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            padding-top: 40px;
-            /* Adiciona um padding maior no topo para o título não ficar grudado */
-            padding-bottom: 30px;
-        }
-
-        #cadastro-modal-title {
-            margin-bottom: 70px;
-            /* Aumenta a margem para empurrar o formulário para baixo */
-            font-size: 2.2em;
-            color: var(--cor-texto-escuro);
-            width: 100%;
-            text-align: center;
-        }
-
-        #cadastro-item-form {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 0 20px;
-            /* Adiciona padding lateral ao formulário para não encostar nas bordas do modal */
-            box-sizing: border-box;
-        }
-
-        #cadastro-item-form .form-group {
-            margin-bottom: 10px;
-            /* Espaçamento entre os campos */
-            width: 100%;
-        }
-
-        /* Estilos específicos para o botão de Cadastrar por ID */
-        #cadastro-submit-button {
-            padding: 12px 50px;
-            font-size: 1.3em;
-            /* text-align: center; REMOVIDO pois flexbox fará a centralização */
-        }
-
-        /* ESTILOS ADICIONADOS/AJUSTADOS PARA O MODAL DE EDIÇÃO */
-        /* Altere a margin-bottom do título do modal de edição, se desejar */
-        #edicao-modal-title {
-            margin-bottom: 25px;
-            /* Ajustado para espaçamento similar ao de cadastro antes da alteração do padding */
-        }
-
-
-        /* Media Queries para responsividade do modal de cadastro */
-        @media screen and (max-width: 480px) {
-            #cadastro-modal-overlay .modal-content {
-                padding-top: 30px;
-                padding-bottom: 20px;
-            }
-
-            #cadastro-modal-title {
-                font-size: 1.8em;
-                margin-bottom: 20px;
-            }
-
-            #cadastro-item-form {
-                padding: 0 15px;
-            }
-
-            #cadastro-submit-button {
-                padding: 10px 20px;
-                font-size: 1em;
-            }
-
-            #cadastro-modal-overlay .modal-buttons {
-                /* Mais específico para o modal de cadastro */
-                flex-direction: column;
-                gap: 10px;
-                margin-top: 20px;
-            }
-
-            #cadastro-modal-overlay .modal-buttons .modal-button {
-                /* Mais específico para os botões do modal de cadastro */
-                width: 100%;
-            }
-        }
+        
     </style>
 </head>
 
@@ -780,7 +158,7 @@ if ($mysqli && !$mysqli->connect_error) { // Garante que $mysqli existe e está 
 
     <div class="menu">
         <button class="hamburguer" aria-expanded="false" aria-controls="main-navigation-list">
-            <span class="sr-only">Abrir/Fechar Menu</span>
+            <!-- <span class="sr-only">Abrir/Fechar Menu</span> -->
             <div id="barra1" class="barra"></div>
             <div id="barra2" class="barra"></div>
             <div id="barra3" class="barra"></div>
@@ -803,18 +181,19 @@ if ($mysqli && !$mysqli->connect_error) { // Garante que $mysqli existe e está 
             <div id="estoque-top-controls">
                 <form id="estoque-search-form" action="estoque.php" method="GET" role="search">
                     <div id="estoque-input-group" class="input-container">
-                        <label for="estoque-alimento-input" class="sr-only">Digite o alimento para buscar</label>
+                        <!-- <label for="estoque-alimento-input" class="sr-only">Digite o alimento para buscar</label> -->
+                        <i class="bi bi-search"></i>
                         <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                         <input type="search" name="alimento" id="estoque-alimento-input"
                             placeholder="Pesquisar item..."
                             value="<?php echo htmlspecialchars($nome_item_busca); ?>">
+                       <button type="submit" id="estoque-search-button">Buscar</button>
+                        <button id="estoque-add-button" class="btn-cadastro">
+                            <i class="fa-solid fa-plus" aria-hidden="true"></i> Novo Item
+                        </button>
                     </div>
-                    <button type="submit" id="estoque-search-button">Buscar</button>
+                     
                 </form>
-
-                <button id="estoque-add-button" class="btn-cadastro">
-                    <i class="fa-solid fa-plus" aria-hidden="true"></i> Novo Item
-                </button>
             </div>
 
             <?php if ($erro_php): ?>
@@ -845,10 +224,10 @@ if ($mysqli && !$mysqli->connect_error) { // Garante que $mysqli existe e está 
                                     <td><?php echo htmlspecialchars($item['unidade_estoque']); ?></td>
                                     <td>
                                         <button class="action-button edit-button" data-id="<?php echo htmlspecialchars($item['id_estoque']); ?>" title="Editar Item">
-                                            <i class="fa-solid fa-pencil"></i>
+                                            <i class="bi bi-pencil"></i>
                                         </button>
                                         <button class="action-button delete-button" data-id="<?php echo htmlspecialchars($item['id_estoque']); ?>" title="Excluir Item">
-                                            <i class="fa-solid fa-trash-can"></i>
+                                            <i class="bi bi-trash3"></i>
                                         </button>
                                     </td>
                                 </tr>

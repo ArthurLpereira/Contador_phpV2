@@ -28,6 +28,26 @@ error_log("DEBUG CALENDARIO PHP: Refresh Token lido da SESSION PHP: " . ($refres
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Calendário</title>
+    <style>
+        #month-year {
+            margin: 0 15px;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #000000;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        th {
+            background-color: #900000;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            color: white;
+        }
+        td.selected {
+            background-color: #900000;
+            color: white;
+        }
+    </style>
 </head>
 
 <body>

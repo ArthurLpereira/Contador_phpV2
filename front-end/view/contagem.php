@@ -22,7 +22,7 @@ if (!empty($dataSelecionada)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Contagem</title>
 </head>
 
@@ -68,10 +68,8 @@ if (!empty($dataSelecionada)) {
     </footer>
 
     <script>
-        console.log(accessTokenFromPHP)
-
-        // Funções do Menu Hambúrguer (Duplicadas em cada página)
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Funções do Menu Hambúrguer ---
             const abrir_menu = document.querySelector('.hamburguer');
             const menu = document.querySelector('.menu');
 
@@ -82,6 +80,7 @@ if (!empty($dataSelecionada)) {
                 });
             }
 
+            // --- Lógica de Redirecionamento dos Botões de Categoria ---
             // Data selecionada vinda do PHP (precisa ser codificada para URL)
             const dataSelecionadaPHP = "<?php echo urlencode($dataSelecionada); ?>";
 
@@ -102,7 +101,7 @@ if (!empty($dataSelecionada)) {
                 });
             });
 
-            // Lógica do botão de logout (repetida em cada página)
+            // --- Lógica do botão de logout ---
             const logoutBtn = document.getElementById('logout-btn');
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', async function(e) {
